@@ -85,8 +85,11 @@ class ItemRepositoryTest {
         test("itemA", 10000, item1);
     }
 
+    // itemName과 maxPrice로 조회했을때 items가 결과로 조회되어야한다.
     void test(String itemName, Integer maxPrice, Item... items) {
         List<Item> result = itemRepository.findAll(new ItemSearchCond(itemName, maxPrice));
+
+        // containsExactly() : 순서까지 동일해야 한다.
         assertThat(result).containsExactly(items);
     }
 }
