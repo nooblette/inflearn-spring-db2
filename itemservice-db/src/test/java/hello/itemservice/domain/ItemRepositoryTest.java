@@ -5,18 +5,17 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+// @Commit // 테스트 이후 트랜잭션 커밋
+@Transactional
 @SpringBootTest
 class ItemRepositoryTest {
 
@@ -24,18 +23,21 @@ class ItemRepositoryTest {
     ItemRepository itemRepository;
 
     /**
-     * 트랜잭션을 사용하기 위해 PlatformTransactionManager 의존관계 추가
-     * 스프링 부트가 application.properties에 작성된 DB 설정 정보를 보고 자동으로 생성하고 주입해준다.
+     * @Transactional 어노테이션으로 아래 코드를 대체한다.
      */
-    @Autowired
-    PlatformTransactionManager transactionManager;
-    TransactionStatus transactionStatus; // 테스트 코드의 트랜잭션 상태 관리를 위함
-
-    @BeforeEach
-    void beforeEach() {
-        // 각각의 테스트 케이스 실행 전에 트랜잭션을 연다.
-        transactionStatus = transactionManager.getTransaction(new DefaultTransactionAttribute());
-    }
+    // /**
+    //  * 트랜잭션을 사용하기 위해 PlatformTransactionManager 의존관계 추가
+    //  * 스프링 부트가 application.properties에 작성된 DB 설정 정보를 보고 자동으로 생성하고 주입해준다.
+    //  */
+    // @Autowired
+    // PlatformTransactionManager transactionManager;
+    // TransactionStatus transactionStatus; // 테스트 코드의 트랜잭션 상태 관리를 위함
+    //
+    // @BeforeEach
+    // void beforeEach() {
+    //     // 각각의 테스트 케이스 실행 전에 트랜잭션을 연다.
+    //     transactionStatus = transactionManager.getTransaction(new DefaultTransactionAttribute());
+    // }
 
     @AfterEach
     void afterEach() {
@@ -44,8 +46,11 @@ class ItemRepositoryTest {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
 
+        /**
+         * @Transactional 어노테이션으로 아래 코드를 대체한다.
+         */
         // 각각의 테스트 케이스 종료 후 트랜잭션 롤백, 테스트 케이스에서 사용한 데이터가 실제 DB에 저장되지 않는다.
-        transactionManager.rollback(transactionStatus);
+        // transactionManager.rollback(transactionStatus);
     }
 
     @Test
