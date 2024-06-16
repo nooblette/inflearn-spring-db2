@@ -28,16 +28,16 @@ public class ItemServiceApplication {
 		return new TestDataInit(itemRepository);
 	}
 
-	@Bean
-	@Profile("test")
-	public DataSource dataSource(){
-		// DataSource를 직접 등록
-		log.info("메모리 데이터베이스 초기화");
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.h2.Driver"); // H2 데이터베이스의 JDBC 구현체(Driver) 사용
-		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"); // 메모리 모드로 사용, JVM 내에 데이터베이스를 만들고 데이터를 쌓는다.
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
-		return dataSource;
-	}
+	// @Bean
+	// @Profile("test")
+	// public DataSource dataSource(){
+	// 	// DataSource를 직접 등록
+	// 	log.info("메모리 데이터베이스 초기화");
+	// 	DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	// 	dataSource.setDriverClassName("org.h2.Driver"); // H2 데이터베이스의 JDBC 구현체(Driver) 사용
+	// 	dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"); // 메모리 모드로 사용, JVM 내에 데이터베이스를 만들고 데이터를 쌓는다.
+	// 	dataSource.setUsername("sa");
+	// 	dataSource.setPassword("");
+	// 	return dataSource;
+	// }
 }
