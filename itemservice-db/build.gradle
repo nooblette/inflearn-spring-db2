@@ -25,8 +25,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	//JdbcTemplate 추가
+	//JdbcTemplate 추가, 스프링이 공식적으로 지원하는 라이브러리인 경우 별도의 버전관리가 필요없다.
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// MyBatis 추가, MyBatis는 스프링이 공식적으로 지원하는 라이브러리가 아니므로 별도의 버전관리가 필요하다(e.g. :3.0.3)
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	//H2 데이터베이스 추가
 	runtimeOnly 'com.h2database:h2'
 
