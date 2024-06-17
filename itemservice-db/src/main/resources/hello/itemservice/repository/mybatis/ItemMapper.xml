@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : 매핑할 인터페이스의 경로를 지정한다. 이 XML 파일은 namespace 설정에 기입한 인터페이스와 매핑된다. -->
+<mapper namespace="hello.itemservice.repository.mybatis.ItemMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into item(item_name, price, quantity)
+        -- save의 parameter로 넘기는 Item 객체의 getter를 호출하여 파라미터를 세팅한다.
+        values(#{itemName}, #{price}, #{quantity})
+    </insert>
+
+    <update id="update">
+        update item
+        set item_name=#{updateParam.itemName},
+            price=#{updateParam.price},
+            quantity=#{updateParam.quantity}
+        where id = #{id}
+    </update>
+
+    <!--
+    mybatis.type-aliases-package=hello.itemservice.domain로 지정했으므로 Item만 작성해도 MyBatis가 자동으로 설정한다.
+    물론 클래스명이 겹치는 경우(다른 패키지 경로에 동일한 이름의 클래스가 2개 이상 존재) 충돌이 날 수 있으므로 주의한다.
+    -->
+    <select id="findById" resultType="Item">
+        select id, item_name, price, quantity
+        from item
+        where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="Item">
+        select id, item_name, price, quantity
+        from item
+        <where>
+            <if test="itemName != null and itemName != ''">
+                and item_name like concat('%', #{itemname}, '%')
+            </if>
+            <if test="maxPrice != null">
+                and price $lt;= #{maxPrice}
+            </if>
+        </where>
+    </select>
+</mapper>
