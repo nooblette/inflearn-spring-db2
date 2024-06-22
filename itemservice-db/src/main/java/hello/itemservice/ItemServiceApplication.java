@@ -1,7 +1,5 @@
 package hello.itemservice;
 
-import javax.sql.DataSource;
-
 import hello.itemservice.config.*;
 import hello.itemservice.repository.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 @Slf4j
-@Import(JpaConfig.class)
+@Import(SpringDataJpaConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
