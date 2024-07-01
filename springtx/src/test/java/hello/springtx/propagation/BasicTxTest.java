@@ -101,4 +101,21 @@ public class BasicTxTest {
 		log.info("내부 트랜잭션 커밋");
 		txManager.commit(inner);
 	}
+
+	@Test
+	void outer_rollback() {
+		log.info("외부 트랜잭션 시작");
+		TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+
+		log.info("내부 트랜잭션 시작");
+		TransactionStatus inner = txManager.getTransaction(new DefaultTransactionAttribute());
+
+		// 내부 트랜잭션을 먼저 커멋한다.
+		log.info("내부 트랜잭션 커밋");
+		txManager.commit(inner);
+
+		// 외부 트랜잭션은 롤백된다.
+		log.info("외부 트랜잭션 롤백");
+		txManager.rollback(outer);
+	}
 }
