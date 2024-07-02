@@ -36,4 +36,23 @@ class MemberServiceTest {
 		assertTrue(memberRepository.find(username).isPresent());
 		assertTrue(logRepository.find(username).isPresent());
 	}
+
+	/**
+	 * memberService	@Transactional:OFF
+	 * memberRepository @Transactional:ON
+	 * logRepository	@Transactional:ON, throw RuntimeException
+	 */
+	@Test
+	void outerTxOff_fail() {
+		// given
+		String username = "로그예외_outerTxOff_fail";
+
+		// when
+		assertThatThrownBy(() -> memberService.joinV1(username))
+			.isInstanceOf(RuntimeException.class);
+
+		// then - 회원 가입은 정상 저장되지만, 로그는 롤백되고 저장되지 않는다.
+		assertTrue(memberRepository.find(username).isPresent());
+		assertTrue(logRepository.find(username).isEmpty());
+	}
 }
