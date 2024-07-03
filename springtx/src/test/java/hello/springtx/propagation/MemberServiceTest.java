@@ -55,4 +55,22 @@ class MemberServiceTest {
 		assertTrue(memberRepository.find(username).isPresent());
 		assertTrue(logRepository.find(username).isEmpty());
 	}
+
+	/**
+	 * memberService	@Transactional:ON
+	 * memberRepository @Transactional:OFF
+	 * logRepository	@Transactional:OFF
+	 */
+	@Test
+	void singleTx() {
+		// given
+		String username = "singleTx";
+
+		// when
+		memberService.joinV1(username);
+
+		// then - 회원 가입과 로그 모두 정상 저장 된다.
+		assertTrue(memberRepository.find(username).isPresent());
+		assertTrue(logRepository.find(username).isPresent());
+	}
 }

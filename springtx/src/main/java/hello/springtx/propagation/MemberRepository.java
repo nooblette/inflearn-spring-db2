@@ -18,7 +18,7 @@ public class MemberRepository {
 
 	// JPA에서 모든 데이터 변경은 트랜잭션 안에서 이뤄져야하므로 반드시 @Transactional 어노테이션을 메서드 혹은 클래스 레벨에 둬야한다.
 	// 보통 @Transactional 어노테이션은 서비스 레이어에 두지만 예제는 설명상 편의를 위해 리포지토리 계층에 두었다.
-	@Transactional
+	// @Transactional
 	public void save(Member member) {
 		log.info("member call");
 		entityManager.persist(member);
