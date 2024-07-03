@@ -3,6 +3,7 @@ package hello.springtx.propagation;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,7 @@ public class LogRepository {
 	// 스프링이 EntityManager 빈을 의존관계 주입해준다.
 	private final EntityManager entityManager;
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void save(Log logMessage) {
 		log.info("로그 저장");
 		entityManager.persist(logMessage);

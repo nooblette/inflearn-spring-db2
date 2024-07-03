@@ -132,4 +132,24 @@ class MemberServiceTest {
 		assertTrue(memberRepository.find(username).isPresent());
 		assertTrue(logRepository.find(username).isEmpty());
 	}
+
+	/**
+	 * memberService	@Transactional:ON
+	 * memberRepository @Transactional:ON
+	 * logRepository	@Transactional:ON(REQUIRES_NEW), throw RuntimeException
+	 */
+	@Test
+	void recoverException_success() {
+		// given
+		String username = "로그예외_recoverException_success";
+
+		// when
+		memberService.joinV2(username);
+
+		// then - 로그 리포지토리(내부 트랜잭션, 신규 트랜잭션)에서 런타임 예외가 발생하여 트랜잭션이 롤백된다.
+		// 외부 트랜잭션(신규 트랜잭션)이 런타임 예외를 정상흐름으로 변환하면 물리 트랜잭션에 커밋을 수행한다. (UnexpectedRollbackException 발생 X)
+		// 로그 저장이 실패하더라도 회원가입은 성공한다.
+		assertTrue(memberRepository.find(username).isPresent());
+		assertTrue(logRepository.find(username).isEmpty());
+	}
 }
