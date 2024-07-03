@@ -91,4 +91,23 @@ class MemberServiceTest {
 		assertTrue(memberRepository.find(username).isPresent());
 		assertTrue(logRepository.find(username).isPresent());
 	}
+
+	/**
+	 * memberService	@Transactional:ON
+	 * memberRepository @Transactional:ON
+	 * logRepository	@Transactional:ON, throw RuntimeException
+	 */
+	@Test
+	void outerTxOn_fail() {
+		// given
+		String username = "로그예외_outerTxOn_fail";
+
+		// when
+		assertThatThrownBy(() -> memberService.joinV1(username))
+			.isInstanceOf(RuntimeException.class);
+
+		// then - 로그 리포지토리(논리 트랜잭션)에서 트랜잭션이 롤백되므로 물리 트랜잭션이 롤백된다. 회원 가입과 로그 모두 저장되지 않는다.
+		assertTrue(memberRepository.find(username).isEmpty());
+		assertTrue(logRepository.find(username).isEmpty());
+	}
 }
