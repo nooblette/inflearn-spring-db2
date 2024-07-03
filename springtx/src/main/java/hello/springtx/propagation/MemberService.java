@@ -31,6 +31,7 @@ public class MemberService {
 		log.info("logRepository 호출 종료");
 	}
 
+	@Transactional
 	public void joinV2(String username) {
 		// 트랜잭션을 각각 사용한다.
 		Member member = new Member(username);
