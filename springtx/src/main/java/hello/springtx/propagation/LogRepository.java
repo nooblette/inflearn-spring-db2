@@ -16,7 +16,7 @@ public class LogRepository {
 	// 스프링이 EntityManager 빈을 의존관계 주입해준다.
 	private final EntityManager entityManager;
 
-	// @Transactional
+	@Transactional
 	public void save(Log logMessage) {
 		log.info("로그 저장");
 		entityManager.persist(logMessage);
